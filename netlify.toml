@@ -5,3 +5,8 @@ publish = "dist"
 [functions]
 deno_import_map = "./import-map.json"
 
+[dev]
+framework = "vite"
+targetPort = 5173
+command = "vite dev --port 5173"
+
