@@ -24,7 +24,7 @@ export default defineConfig({
     manifest: true,
     outDir: "dist",
     rollupOptions: {
-      input: "src/client-entry.jsx",
+      input: "src/entry.client.jsx",
     },
   },
   resolve: {

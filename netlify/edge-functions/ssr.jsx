@@ -1,6 +1,5 @@
 /** @jsxImportSource react */
-import App from "../../src/App.jsx";
-import { StaticRouter } from "react-router-dom/server";
+import ServerEntry from "../../src/entry.server.jsx";
 import manifest from "../../dist/edge-manifest.js";
 import { renderToString } from "react-dom/server";
 
@@ -9,16 +8,12 @@ export default async (request, context) => {
 
   // Get the client entry bundle.
   const clientEntry = Object.values(manifest).find(
-    (entry) => entry.isEntry && entry.name === "client-entry"
+    (entry) => entry.isEntry && entry.name === "entry.client"
   );
   const clientPath = `/dist/${clientEntry.fileName}`;
 
   // serve html
-  const appHtml = renderToString(
-    <StaticRouter location={url.pathname}>
-      <App />
-    </StaticRouter>
-  );
+  const appHtml = renderToString(<ServerEntry url={url} />);
 
   return new Response(
     `<!DOCTYPE html>
