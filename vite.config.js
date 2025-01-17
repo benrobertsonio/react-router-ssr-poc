@@ -6,22 +6,19 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [
     react(),
-    // {
-    //   name: "generate-manifest-js",
-    //   closeBundle() {
-    //     // read vite's manifest
-    //     const manifest = fs.readFileSync(
-    //       path.join(__dirname, "dist", ".vite", "manifest.json"),
-    //       "utf-8"
-    //     );
+    {
+      name: "inject-manifest",
+      generateBundle(options, bundle) {
+        // create a virtual module with our manifest data
+        const manifestContent = `export default ${JSON.stringify(bundle)}`;
 
-    //     // write it as a js module
-    //     fs.writeFileSync(
-    //       path.join(__dirname, "netlify/edge-functions/manifest.js"),
-    //       `export default ${manifest};`
-    //     );
-    //   },
-    // },
+        this.emitFile({
+          type: "asset",
+          fileName: "edge-manifest.js",
+          source: manifestContent,
+        });
+      },
+    },
   ],
   build: {
     manifest: true,

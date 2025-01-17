@@ -1,26 +1,19 @@
 /** @jsxImportSource react */
 import App from "../../src/App.jsx";
 import { StaticRouter } from "react-router-dom/server";
+import manifest from "../../dist/edge-manifest.js";
 import { renderToString } from "react-dom/server";
 
 export default async (request, context) => {
   const url = new URL(request.url);
 
-  let manifest = {};
-  try {
-    const manifestResp = await context.json(
-      "/.netlify/edge-functions/manifest.json"
-    );
-    manifest = await manifestResp.json();
-    console.log("loaded manifest:", manifest);
-  } catch (e) {
-    console.error("Failed to load manifest:", e);
-  }
+  // Get the client entry bundle.
+  const clientEntry = Object.values(manifest).find(
+    (entry) => entry.isEntry && entry.name === "client-entry"
+  );
+  const clientPath = `/dist/${clientEntry.fileName}`;
 
-  const clientEntry =
-    manifest["client-entry.jsx"]?.file || "/assets/client-entry-C8fnGiLJ.js";
-  console.log("using client entry:", clientEntry);
-
+  // serve html
   const appHtml = renderToString(
     <StaticRouter location={url.pathname}>
       <App />
@@ -33,8 +26,8 @@ export default async (request, context) => {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>My App</title>
-        <script type="module" src="${clientEntry}"></script>
+        <title>Server Rendered App</title>
+        <script type="module" src="${clientPath}"></script>
       </head>
       <body>
         <div id="root">${appHtml}</div>
@@ -44,4 +37,10 @@ export default async (request, context) => {
       headers: { "content-type": "text/html; charset=utf-8" },
     }
   );
+};
+
+export const config = {
+  path: "/*",
+  // exclude all js from the edge function
+  excludedPath: ["/dist/assets/*.js"],
 };
