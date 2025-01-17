@@ -6,6 +6,16 @@ function = "ssr"
 command = "npm run build"
 publish = "dist"
 
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Content-Type = "application/json"
+
+[[redirects]]
+  from = "/manifest.json"
+  to = "/.vite/manifest.json"
+  status = 200
+
 [functions]
 deno_import_map = "./import-map.json"
 
