@@ -19,4 +19,5 @@ Click on a link to see that the navigation is handled on the client side.
 ## Todo
 
 - migrate from StaticRouter to createStaticRouter / createStaticHandler, so that the routes can be defined on the server, and not just on the client. (see docs here: https://reactrouter.com/6.28.2/guides/ssr#with-a-data-router)
+  - an example of this is here: https://github.com/remix-run/react-router/tree/main/examples/ssr-data-router
 - demonstrate how bundling / code splitting could work.
