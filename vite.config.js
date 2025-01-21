@@ -29,10 +29,10 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      react: "https://esm.sh/v135/react@18.2.0",
-      "react-dom": "https://esm.sh/v135/react-dom@18.2.0",
-      "react-dom/client": "https://esm.sh/v135/react-dom@18.2.0/client",
-      "react-router-dom": "https://esm.sh/v135/react-router-dom@6.20.0",
+      react: "https://esm.sh/react@18.2.0",
+      "react-dom": "https://esm.sh/react-dom@18.2.0",
+      "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+      "react-router-dom": "https://esm.sh/react-router-dom@6.28.2",
     },
   },
 });

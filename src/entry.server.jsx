@@ -1,11 +1,6 @@
-import App from "./App.jsx";
 import React from "react";
-import { StaticRouter } from "react-router-dom/server";
+import { StaticRouterProvider } from "react-router-dom/server";
 
-export default function ServerEntry({ url }) {
-  return (
-    <StaticRouter location={url.pathname}>
-      <App />
-    </StaticRouter>
-  );
+export default function ServerEntry({ router, context }) {
+  return <StaticRouterProvider router={router} context={context} />;
 }
